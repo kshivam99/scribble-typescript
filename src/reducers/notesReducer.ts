@@ -4,11 +4,11 @@ import {
   notesType,
 } from "../contexts/notesContext";
 
-
 export type ACTIONTYPE =
+  | { type: "GET_NOTES"; payload: notesType[] }
   | { type: "ADD_NOTE"; payload: notesType }
   | { type: "DELETE_NOTE"; payload: String }
-  | { type: "TOGGLE_TRASH_NOTE"; payload: String }
+  | { type: "EDIT_NOTE_TITLE"; payload: { _id: String; title: String } }
   | { type: "EDIT_NOTE_TEXT"; payload: { _id: String; text: String } }
   | { type: "TOGGLE_ARCHIVE_NOTE"; payload: String }
   | { type: "TOGGLE_PIN_NOTE"; payload: String }
@@ -17,12 +17,15 @@ export type ACTIONTYPE =
   | { type: "EDIT_LABEL"; payload: { _id: String; label: String } }
   | { type: "EDIT_NOTE_LABEL"; payload: { _id: String; label: String } };
 
-
 export const notesReducer = (
   state: initialStateType,
   action: ACTIONTYPE
 ): initialStateType => {
   switch (action.type) {
+    case "GET_NOTES":
+      return {
+        ...state, notes: action.payload,
+      };
     case "ADD_NOTE":
       return {
         ...state,
@@ -33,6 +36,18 @@ export const notesReducer = (
         ...state,
         notes: state.notes.filter((note) => note._id !== action.payload),
       };
+      case "EDIT_NOTE_TITLE":
+        return {
+          ...state,
+          notes: state.notes.map((note) =>
+            note._id === action.payload._id
+              ? {
+                  ...note,
+                  title: action.payload.title,
+                }
+              : note
+          ),
+        };
     case "EDIT_NOTE_TEXT":
       return {
         ...state,
@@ -52,19 +67,7 @@ export const notesReducer = (
           note._id === action.payload
             ? {
                 ...note,
-                archive: !note.archived,
-              }
-            : note
-        ),
-      };
-    case "TOGGLE_TRASH_NOTE":
-      return {
-        ...state,
-        notes: state.notes.map((note) =>
-          note._id === action.payload
-            ? {
-                ...note,
-                trash: !note.trash,
+                archived: !note.archived,
               }
             : note
         ),

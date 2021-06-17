@@ -1,9 +1,10 @@
 import axios from "axios";
 import React from "react";
 import { ACTIONTYPE } from "../reducers/notesReducer";
-import { queryAddNote, queryDeleteNote } from "./notesQuery";
+import { queryGetNotes, queryAddNote, queryDeleteNote } from "./notesQuery";
 
 export type addNoteType = {
+  title: String;
   text: String;
   email: String;
   label: String;
@@ -18,6 +19,27 @@ const Axios = axios.create({
   },
 });
 
+export const getNotes = async(dispatch: React.Dispatch<ACTIONTYPE>, email: String | undefined) => {
+  try{
+  const res = await Axios.post(
+    "/",
+    JSON.stringify({
+      query: queryGetNotes,
+      variables: {
+        "email":email
+      },
+    })
+  );
+    console.log(res)
+  dispatch({ type: "GET_NOTES", payload: res.data.data.notes });
+  }
+  catch(err)
+  {
+    console.log(err);
+  }
+}
+
+
 export const addNoteThunk = async (
   dispatch: React.Dispatch<ACTIONTYPE>,
   payload: addNoteType
@@ -29,7 +51,6 @@ export const addNoteThunk = async (
       variables: { ...payload },
     })
   );
-
   dispatch({ type: "ADD_NOTE", payload: res.data.data.insert_notes_one });
 };
 

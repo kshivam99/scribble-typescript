@@ -1,0 +1,63 @@
+.sideBar {
+  min-width:15rem;
+  height: 92vh;
+  border-right: 0.2px solid #000000;
+  overflow-y: scroll;
+  color:#fff !important;
+  font-size: 1rem;
+}
+
+.sideBarList {
+  height: 80%;
+}
+.icon{
+ margin-right: 1rem;
+}
+
+.activeTag {
+  background-color: #404040 !important;
+  transition: all 0.2s ease;
+  color:#fff;
+  }
+
+.tag {
+  display: flex;
+  padding:1rem;
+  align-items: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.tag:hover, .activeTag:hover{
+  background-color: #242323;
+  color:#fff;
+}
+
+.addTag {
+  color: #1D4ED8;
+  display: inline-flex;
+  align-items: center;
+  padding: 1rem;
+  cursor: pointer;
+}
+
+
+.newNote{
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    /* color: white; */
+    cursor: pointer;
+    transition: all .3s ease;
+    color:#1D4ED8;
+}
+
+.newNote:hover {
+    background-color: #404040;
+    color:#fff;
+}
+
+.newNote{
+    padding:1rem;
+}

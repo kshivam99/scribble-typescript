@@ -6,6 +6,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { ThemeProvider } from "./contexts/themeContext";
 import { NotesProvider } from "./contexts/notesContext";
+import { IconContext } from "react-icons";
 
 const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
@@ -22,7 +23,9 @@ ReactDOM.render(
           cacheLocation="localstorage"
         >
           <NotesProvider>
-            <App />
+            <IconContext.Provider value={{ color: "white", size: "24" }}>
+              <App />
+            </IconContext.Provider>
           </NotesProvider>
         </Auth0Provider>
       </ThemeProvider>

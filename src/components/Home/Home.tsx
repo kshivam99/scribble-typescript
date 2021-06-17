@@ -1,31 +1,23 @@
 import { useAuth0 } from "@auth0/auth0-react";
 import { useScribble } from "../../contexts/notesContext";
-import { addNoteThunk } from "../../middlewares/notesMiddleware";
+import Sidebar from "../Sidebar/Sidebar";
+import { getNotes } from "../../middlewares/notesMiddleware";
 import styles from "./Home.module.css";
+import { useEffect } from "react";
+import { Outlet } from "react-router-dom";
 
 function Home() {
   const { state, dispatch } = useScribble();
   const { user } = useAuth0();
 
-  console.log(user?.email)
-
-  console.log(state);
+  useEffect(() => {
+    getNotes(dispatch, user?.email);
+  }, []);
 
   return (
-    <div>
-      <button
-        style={{marginTop:"6rem"}}
-        onClick={() =>
-          addNoteThunk(dispatch, {
-            text: "My first note",
-            email: user?.email!,
-            label: "Others",
-            pinned: true,
-          })
-        }
-      >
-        ADD note
-      </button>
+    <div className={styles.container}>
+      <Sidebar />
+      <Outlet />
     </div>
   );
 }

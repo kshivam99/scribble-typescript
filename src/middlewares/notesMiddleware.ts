@@ -1,7 +1,7 @@
 import axios from "axios";
 import React from "react";
 import { ACTIONTYPE } from "../reducers/notesReducer";
-import { queryGetNotes, queryAddNote, queryDeleteNote } from "./notesQuery";
+import { queryGetNotes, queryAddNote, queryDeleteNote, queryAddLabel, queryDeleteLabel, queryEditLabel } from "./notesQuery";
 
 export type addNoteType = {
   title: String;
@@ -11,6 +11,11 @@ export type addNoteType = {
   pinned: Boolean;
 };
 
+export type addLabelType = {
+  email: String;
+  label: String;
+}
+
 const Axios = axios.create({
   baseURL: process.env.REACT_APP_HASURA_ENDPOINT,
   headers: {
@@ -19,7 +24,7 @@ const Axios = axios.create({
   },
 });
 
-export const getNotes = async(dispatch: React.Dispatch<ACTIONTYPE>, email: String | undefined) => {
+export const getNotesAndLabels = async(dispatch: React.Dispatch<ACTIONTYPE>, email: String | undefined) => {
   try{
   const res = await Axios.post(
     "/",
@@ -30,8 +35,9 @@ export const getNotes = async(dispatch: React.Dispatch<ACTIONTYPE>, email: Strin
       },
     })
   );
-    console.log(res)
+
   dispatch({ type: "GET_NOTES", payload: res.data.data.notes });
+  dispatch({ type: "GET_LABELS", payload: res.data.data.labels });
   }
   catch(err)
   {
@@ -62,10 +68,52 @@ export const deleteNoteThunk = async (
     "/",
     JSON.stringify({
       query: queryDeleteNote,
-      variables: { ...payload },
+      variables: { "_id": payload },
     })
   );
 
   dispatch({ type: "DELETE_NOTE", payload: res.data.data.delete_notes_by_pk._id });
 };
 
+export const addLabelThunk = async (
+  dispatch: React.Dispatch<ACTIONTYPE>,
+  payload: addLabelType
+) => {
+  const res = await Axios.post(
+    "/",
+    JSON.stringify({
+      query: queryAddLabel,
+      variables: payload,
+    })
+  );
+  dispatch({ type: "ADD_LABEL", payload: res.data.data.insert_labels_one });
+};
+
+export const deleteLabelThunk = async (
+  dispatch: React.Dispatch<ACTIONTYPE>,
+  payload: String
+) => {
+  const res = await Axios.post(
+    "/",
+    JSON.stringify({
+      query: queryDeleteLabel,
+      variables: { "_id": payload},
+    })
+  );
+  dispatch({ type: "DELETE_LABEL", payload: res.data.data.delete_labels_by_pk._id });
+};
+
+export const editLabelThunk = async (
+  dispatch: React.Dispatch<ACTIONTYPE>,
+  payload: { _id: String, label: String}
+) => {
+  const res = await Axios.post(
+    "/",
+    JSON.stringify({
+      query: queryEditLabel,
+      variables: payload,
+    })
+  );
+
+  dispatch({ type: "DELETE_LABEL", payload: res.data.data.update_labels_by_pk._id });
+};

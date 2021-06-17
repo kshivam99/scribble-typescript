@@ -35,15 +35,16 @@ function Editor() {
         <option value="">
             Select Label
           </option>
-          <option value="label1">
-            label1
-          </option>
-          <option value="label2">
-            label2
-          </option>
+          {
+            state.label.map(item=>(
+              <option value={`${item.label}`}>
+              {item.label}
+            </option>
+            ))
+          }
           </select>
           <button onClick={()=>setPinned(prev=>!prev)} >{pinned?"Unpin":"Pin"}</button>
-        <Icon name="checkmark box" size="large" onClick={submitNewNote} className={styles.submitIcon} />
+        {text.length>11 && <Icon name="checkmark box" size="large" onClick={submitNewNote} className={styles.submitIcon} />}
       </div>
 
       <ReactQuill

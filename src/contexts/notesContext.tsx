@@ -16,7 +16,6 @@ export type notesType = {
   _id: String;
   title: String;
   text: String;
-  email: String;
   pinned: Boolean;
   archived: Boolean;
   label: String;

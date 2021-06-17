@@ -3,7 +3,7 @@
   height: 92vh;
   border-right: 0.2px solid #000000;
   overflow-y: scroll;
-  color:#fff !important;
+  color:#000;
   font-size: 1rem;
 }
 

@@ -21,7 +21,6 @@ function Editor() {
   const [label, setLabel] = useState(noteLabel);
   const { user } = useAuth0();
 
-  console.log(title, label, text)
   return (
     <div className={styles.editorBody}>
       

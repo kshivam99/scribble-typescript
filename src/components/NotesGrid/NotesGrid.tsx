@@ -3,6 +3,8 @@ import { Input } from "semantic-ui-react";
 import styles from "./NotesGrid.module.css";
 import { useScribble } from "../../contexts/notesContext";
 import { NavLink } from "react-router-dom";
+import { RiDeleteBack2Fill } from "react-icons/ri";
+import { deleteNoteThunk } from "../../middlewares/notesMiddleware";
 
 function NotesGrid() {
   const { theme, setTheme } = useTheme();
@@ -12,28 +14,22 @@ function NotesGrid() {
 
   return (
     <div className={theme === "Dark" ? styles.container : styles.container}>
-      <div
-        className={
-          theme === "Dark"
-            ? "dark--header home--searchbar"
-            : "light--header home--searchbar"
-        }
-      >
-        {/* <Input icon="search" placeholder="Search Notes.." /> */}
+      <div>
+        {state.notes.length === 0 && <h1 style={{marginTop:"5rem"}}>No Notes Found, Create one</h1>}
       </div>
-      {/* {loading && (
-        <CircularProgress
-          style={{ margin: "10rem auto", width: "10rem", height: "10rem" }}
-        />
-      )} */}
       <div className={styles.homeGrid}>
         {state.notes.map((note) => (
-          <NavLink to={`/notes/${note._id}`}>
           <div className={styles.noteBox}>
-            <h1>{note.title}</h1>
+            <RiDeleteBack2Fill
+              color={"#000"}
+              style={{ marginLeft: "auto" }}
+              onClick={() => deleteNoteThunk(dispatch, note._id)}
+            />
+            <NavLink to={`/notes/${note._id}`}>
+              <h1>{note.title}</h1>
+            </NavLink>
             <p>{note.label}</p>
           </div>
-          </NavLink>
         ))}
       </div>
     </div>

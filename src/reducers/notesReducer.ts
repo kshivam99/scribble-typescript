@@ -6,6 +6,7 @@ import {
 
 export type ACTIONTYPE =
   | { type: "GET_NOTES"; payload: notesType[] }
+  | { type: "GET_LABELS"; payload: labelType[] }
   | { type: "ADD_NOTE"; payload: notesType }
   | { type: "DELETE_NOTE"; payload: String }
   | { type: "EDIT_NOTE_TITLE"; payload: { _id: String; title: String } }
@@ -24,7 +25,13 @@ export const notesReducer = (
   switch (action.type) {
     case "GET_NOTES":
       return {
-        ...state, notes: action.payload,
+        ...state,
+        notes: action.payload,
+      };
+    case "GET_LABELS":
+      return {
+        ...state,
+        label: action.payload,
       };
     case "ADD_NOTE":
       return {
@@ -36,18 +43,18 @@ export const notesReducer = (
         ...state,
         notes: state.notes.filter((note) => note._id !== action.payload),
       };
-      case "EDIT_NOTE_TITLE":
-        return {
-          ...state,
-          notes: state.notes.map((note) =>
-            note._id === action.payload._id
-              ? {
-                  ...note,
-                  title: action.payload.title,
-                }
-              : note
-          ),
-        };
+    case "EDIT_NOTE_TITLE":
+      return {
+        ...state,
+        notes: state.notes.map((note) =>
+          note._id === action.payload._id
+            ? {
+                ...note,
+                title: action.payload.title,
+              }
+            : note
+        ),
+      };
     case "EDIT_NOTE_TEXT":
       return {
         ...state,

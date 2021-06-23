@@ -17,11 +17,9 @@ import {
 
 function Sidebar() {
   const { state, dispatch } = useScribble();
-  const { user } = useAuth0();
   const [viewModal, setViewModal] = useState<Boolean>(false);
   const path = useLocation().pathname;
 
-  console.log(viewModal);
   return (
     <div className={styles.sideBar}>
       <NavLink to="/notes/new">
@@ -44,13 +42,25 @@ function Sidebar() {
           </div>
         </NavLink>
         <NavLink to="/notes/pinned">
-          <div className={false ? styles.activeTag : styles.tag}>
+          <div
+            className={
+              path === "/notes/pinned"
+                ? `${styles.activeTag} ${styles.tag}`
+                : styles.tag
+            }
+          >
             <AiFillPushpin className={styles.icon} />
             Pinned notes
           </div>
         </NavLink>
         <NavLink to="/notes/archived">
-          <div className={false ? styles.activeTag : styles.tag}>
+          <div
+            className={
+              path === "/notes/archived"
+                ? `${styles.activeTag} ${styles.tag}`
+                : styles.tag
+            }
+          >
             <FaFileArchive className={styles.icon} />
             Archived notes
           </div>
@@ -59,11 +69,12 @@ function Sidebar() {
           {state.label.map((item) => (
             <div className={false ? styles.activeTag : styles.tag}>
               <BiLabel className={styles.icon} />
-              {item.label}
-              
+              <NavLink to={`/notes/label/${item.label}`}>
+                <p>{item.label}</p>
+              </NavLink>
               <RiChatDeleteLine
                 onClick={() => deleteLabelThunk(dispatch, item._id)}
-                style={{marginLeft:"auto"}}
+                style={{ marginLeft: "auto" }}
               />
             </div>
           ))}

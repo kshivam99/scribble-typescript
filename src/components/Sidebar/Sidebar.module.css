@@ -3,8 +3,9 @@
   height: 92vh;
   border-right: 0.2px solid #000000;
   overflow-y: scroll;
-  color:#000;
+  color:#fff;
   font-size: 1rem;
+  background-color: #222222;
 }
 
 .sideBarList {
@@ -27,11 +28,15 @@
   cursor: pointer;
   transition: all 0.2s ease;
   font-weight: 500;
+  color:#fff;
+}
+
+.tag p{
+ color:#fff;
 }
 
 .tag:hover, .activeTag:hover{
-  background-color: #242323;
-  color:#fff;
+  background-color: #404040;
 }
 
 .addTag {

@@ -43,7 +43,7 @@ function Editor() {
             ))
           }
           </select>
-          <button onClick={()=>setPinned(prev=>!prev)} >{pinned?"Unpin":"Pin"}</button>
+          <button onClick={()=>setPinned(prev=>!prev)} style={{padding:"0.5rem"}}>{pinned?"Unpin":"Pin"}</button>
         {text.length>11 && <Icon name="checkmark box" size="large" onClick={submitNewNote} className={styles.submitIcon} />}
       </div>
 

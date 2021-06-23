@@ -32,8 +32,9 @@ function App() {
           <Route path="/" element={<NotesGrid />}/>
           <Route path="/new" element={<Editor />}/>
           <Route path="/:noteId" element={<Note />}/>
-          <Route path="/pinned" element={<p>Pinned Notes</p>} />
-          <Route path="/archived" element={<p>Archived Notes</p>} />
+          <Route path="/pinned" element={<NotesGrid />} />
+          <Route path="/archived" element={<NotesGrid />} />
+          <Route path="/label/:labelName" element={<NotesGrid />} />
         </Route>
       </Routes>
     </div>
